@@ -1,13 +1,20 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  /* padding: 2rem; */
+  padding: 2rem;
   text-align: center;
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vw;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://images.unsplash.com/photo-1454117096348-e4abbeba002c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80");
 }
 
 .card {
-  min-width: 450px;
-  min-height: 500px;
+  /* min-width: 450px;
+  min-height: 500px; */
   transition: all 0.2s;
   position: relative;
 }
@@ -15,12 +22,24 @@
 .card-inner {
   width: inherit;
   height: inherit;
-  min-width: 400px;
-  min-height: 500px;
+  /* min-width: 400px;
+  min-height: 500px; */
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   backdrop-filter: blur(10px);
+}
+
+@media screen and (min-width: 1024px) {
+  .card {
+    min-width: 450px;
+    min-height: 500px;
+  }
+
+  .card-inner {
+    min-width: 400px;
+    min-height: 500px;
+  }
 }
 
 .circle {
@@ -29,6 +48,7 @@
   background: radial-gradient(#b0e633, #53ef7d);
   border-radius: 50%;
   position: absolute;
+  overflow: hidden;
   animation: move-up6 2s ease-in infinite alternate-reverse;
 }
 
