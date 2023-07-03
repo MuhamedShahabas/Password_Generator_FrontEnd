@@ -8,7 +8,7 @@ function SavedPasswords() {
     <div className="card">
       <Circle />
       <Circle />
-      <div className="card-inner">
+      <div className="card-inner flex flex-col">
         <h1 className="title">Saved Passwords</h1>
         <Table className="px-1" data={getLocalData()} />
         <Link to="/" className="newPasss-button mx-auto my-4">
