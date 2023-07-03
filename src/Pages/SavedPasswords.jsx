@@ -6,8 +6,8 @@ import { getLocalData } from "../utils/localStorage";
 function SavedPasswords() {
   return (
     <div className="card">
-      <Circle />
-      <Circle />
+      {/* <Circle />
+      <Circle /> */}
       <div className="card-inner flex flex-col">
         <h1 className="title">Saved Passwords</h1>
         <Table className="px-1" data={getLocalData()} />

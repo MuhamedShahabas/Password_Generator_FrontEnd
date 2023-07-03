@@ -89,8 +89,8 @@ function Home() {
 
   return (
     <div className="card">
-      <Circle />
-      <Circle />
+      {/* <Circle />
+      <Circle /> */}
       <div className="card-inner flex flex-col justify-center">
         <h1 className="title">Password Generator</h1>
         <form
