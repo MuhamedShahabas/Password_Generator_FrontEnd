@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CheckWrapper from "../Components/CheckWrapper";
 import Circle from "../Components/Circle";
-import copyToClipboardIMG from "/images/copy.png";
+import copyToClipboardIMG from "../../public/images/copy.png";
 import { generatePassword } from "../utils/generatePassword";
 import { toast } from "react-hot-toast";
 import { getLocalData, saveLocally } from "../utils/localStorage";
