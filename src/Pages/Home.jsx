@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CheckWrapper from "../Components/CheckWrapper";
-import Circle from "../Components/Circle";
 import copyToClipboardIMG from "../../public/images/copy.png";
 import { generatePassword } from "../utils/generatePassword";
 import { toast } from "react-hot-toast";
@@ -180,7 +179,7 @@ function Home() {
                 name="symbols"
                 id="symbols"
               />
-              <label htmlFor="symbols">Symbols ( !@#$%^&* )</label>
+              <label htmlFor="symbols">Symbols ( ~!@#$%^&*(/_+-= )</label>
             </CheckWrapper>
             <CheckWrapper>
               <input

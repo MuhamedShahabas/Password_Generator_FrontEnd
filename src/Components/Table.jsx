@@ -2,8 +2,10 @@ import { useMemo } from "react";
 import DataTable from "react-data-table-component";
 import { toast } from "react-hot-toast";
 import copyToClipboardIMG from "../../public/images/copy.png";
+import deleteIMG from "../../public/images/bin.png";
+import { deletePassword, getLocalData } from "../utils/localStorage";
 
-function Table({ className, data }) {
+function Table({ className, data, setData }) {
   const tableCustomStyles = {
     headCells: {
       style: {
@@ -22,20 +24,31 @@ function Table({ className, data }) {
         selector: (row) => row.name,
       },
       {
-        name: "Copy",
+        name: "Actions",
         selector: (row) => (
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(row.password);
-              return toast.success("Copied to clipboard");
-            }}
-          >
-            <img
-              src={copyToClipboardIMG}
-              alt="Copy Password"
-              className="w-7 h-7"
-            />
-          </button>
+          <>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(row.password);
+                return toast.success("Copied to clipboard");
+              }}
+            >
+              <img
+                src={copyToClipboardIMG}
+                alt="Copy Password"
+                className="w-6 h-6 mr-1"
+              />
+            </button>
+            <button
+              onClick={() => {
+                deletePassword(row.name);
+                setData(getLocalData());
+                return toast.success(`${row.name} deleted`);
+              }}
+            >
+              <img src={deleteIMG} alt="Delete Password" className="w-6 h-6" />
+            </button>
+          </>
         ),
       },
       {
