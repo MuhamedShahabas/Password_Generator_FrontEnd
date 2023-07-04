@@ -83,6 +83,7 @@ function Table({ className, data, setData }) {
                           onClick={() => {
                             deletePassword(row.name);
                             setData(getLocalData());
+                            toast.dismiss(t.id);
                             return toast.success(`${row.name} deleted`);
                           }}
                         >
