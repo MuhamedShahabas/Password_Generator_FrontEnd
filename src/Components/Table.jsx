@@ -44,7 +44,10 @@ function Table({ className, data, setData }) {
           <>
             <button
               onClick={() => {
-                navigator.clipboard.writeText(row.password);
+                navigator.clipboard.writeText(row.password, {
+                  id: "removePassword",
+                  duration: 1000,
+                });
                 return toast.success("Copied to clipboard", {
                   id: "copy",
                   duration: 1000,
@@ -54,7 +57,7 @@ function Table({ className, data, setData }) {
               <img
                 src={copyToClipboardIMG}
                 alt="Copy Password"
-                className="w-6 h-6 mr-1"
+                className="w-6 h-6 mr-1 active:animate-ping"
               />
             </button>
             <button
@@ -75,7 +78,7 @@ function Table({ className, data, setData }) {
                       </span>
                       <div className="flex justify-between gap-2 mt-2">
                         <button
-                          className="border active:animate-ping rounded-md text-white bg-green-400 p-2"
+                          className="border rounded-md text-white bg-green-400 p-2"
                           type="submit"
                           onClick={() => {
                             deletePassword(row.name);
@@ -87,7 +90,7 @@ function Table({ className, data, setData }) {
                         </button>
                         <button
                           type="button"
-                          className="border active:animate-ping rounded-md text-white bg-red-400 p-2"
+                          className="border rounded-md text-white bg-red-400 p-2"
                           onClick={() => toast.dismiss(t.id)}
                         >
                           Cancel
@@ -101,7 +104,11 @@ function Table({ className, data, setData }) {
                 )
               }
             >
-              <img src={deleteIMG} alt="Delete Password" className="w-6 h-6" />
+              <img
+                src={deleteIMG}
+                alt="Delete Password"
+                className="w-6 h-6 active:animate-ping"
+              />
             </button>
           </>
         ),
