@@ -11,9 +11,10 @@
   background-size: cover;
   background-repeat: no-repeat;
   /* background-image: url("https://images.unsplash.com/photo-1454117096348-e4abbeba002c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"); */
-  background-image: url("https://img.freepik.com/free-photo/gray-painted-background_53876-94041.jpg?w=1060&t=st=1688451161~exp=1688451761~hmac=2d8a6c5ae6d1f184988659405f129e00178e84766f370377e941aae1c078bbf7");
-  /* background-image: url("https://img.freepik.com/free-photo/grunge-gray-concrete-textured-background_53876-129715.jpg?w=1060&t=st=1688451209~exp=1688451809~hmac=62a8261730faaad8e6dbcae88d196dbe08f8e7927fc78e7d3b58e5c67ee92476"); */
-}
+  background-image: url("../public/images/grey-bg.jpeg");
+  /* background-image: url("https://images.unsplash.com/photo-1506259091721-347e791bab0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"); */
+  /* background-image: url(""); */
+ }
 
 .card {
   /* min-width: 450px;
