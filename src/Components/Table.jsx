@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import { toast } from "react-hot-toast";
 import copyToClipboardIMG from "../../public/images/copy.png";
 import deleteIMG from "../../public/images/bin.png";
@@ -11,10 +11,25 @@ function Table({ className, data, setData }) {
       style: {
         fontSize: "13px",
         fontWeight: "bold",
-        backgroundColor: "#f5f5f5",
+        background: "dimgrey",
       },
     },
   };
+
+  createTheme(
+    "solarized",
+    {
+      text: {
+        primary: "white",
+        secondary: "white",
+      },
+      background: "transparent",
+      divider: {
+        default: "grey",
+      },
+    },
+    "dark"
+  );
 
   const columns = useMemo(
     () => [
@@ -30,7 +45,10 @@ function Table({ className, data, setData }) {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(row.password);
-                return toast.success("Copied to clipboard");
+                return toast.success("Copied to clipboard", {
+                  id: "copy",
+                  duration: 1000,
+                });
               }}
             >
               <img
@@ -40,11 +58,48 @@ function Table({ className, data, setData }) {
               />
             </button>
             <button
-              onClick={() => {
-                deletePassword(row.name);
-                setData(getLocalData());
-                return toast.success(`${row.name} deleted`);
-              }}
+              onClick={() =>
+                toast(
+                  (t) => (
+                    <div className="flex flex-col gap-2">
+                      <span className="font-bold">Delete Password</span>
+                      <span className="flex flex-col gap-2">
+                        <input
+                          type="text"
+                          value={row.name}
+                          name="name"
+                          id="name"
+                          disabled
+                          className="text-sm border rounded-md p-2"
+                        />
+                      </span>
+                      <div className="flex justify-between gap-2 mt-2">
+                        <button
+                          className="border active:animate-ping rounded-md text-white bg-green-400 p-2"
+                          type="submit"
+                          onClick={() => {
+                            deletePassword(row.name);
+                            setData(getLocalData());
+                            return toast.success(`${row.name} deleted`);
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          type="button"
+                          className="border active:animate-ping rounded-md text-white bg-red-400 p-2"
+                          onClick={() => toast.dismiss(t.id)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ),
+                  {
+                    position: "top-center",
+                  }
+                )
+              }
             >
               <img src={deleteIMG} alt="Delete Password" className="w-6 h-6" />
             </button>
@@ -71,6 +126,7 @@ function Table({ className, data, setData }) {
       highlightOnHover
       persistTableHead
       pagination
+      theme="solarized"
       noDataComponent={
         <p className="my-8 font-semibold">No saved passwords.</p>
       }

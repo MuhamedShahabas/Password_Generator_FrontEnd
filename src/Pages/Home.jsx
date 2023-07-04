@@ -22,7 +22,7 @@ function Home() {
     return setPassword(generatePassword(options));
   };
 
-  const saveHandler = () => {
+  const saveHandler = () =>
     toast(
       (t) => (
         <form
@@ -75,7 +75,6 @@ function Home() {
         position: "top-center",
       }
     );
-  };
 
   const submitNewSaveHandler = (e) => {
     const passwordName = e.target.passwordName.value.toLowerCase().trim();
@@ -115,7 +114,10 @@ function Home() {
                   return false;
                 }
                 navigator.clipboard.writeText(password);
-                return toast.success("Copied to clipboard");
+                return toast.success("Copied to clipboard", {
+                  id: "copy",
+                  duration: 1000,
+                });
               }}
             />
           </div>
@@ -200,7 +202,7 @@ function Home() {
           </button>
         </form>
         <button
-          className="buttonDownload w-80 mx-auto"
+          className="buttonDownload w-3/4 mx-auto"
           onClick={
             password
               ? saveHandler
@@ -210,7 +212,7 @@ function Home() {
           Save Password
         </button>
         <Link to="/savedPasswords">
-          <button className="continue-application">
+          <button className="continue-application w-3/4">
             <div>
               <div className="pencil"></div>
               <div className="folder">
