@@ -44,6 +44,7 @@ function Table({ className, data, setData }) {
           <>
             <button
               onClick={() => {
+                toast.dismiss();
                 navigator.clipboard.writeText(row.password, {
                   id: "removePassword",
                   duration: 1000,
@@ -63,7 +64,7 @@ function Table({ className, data, setData }) {
             <button
               onClick={() =>
                 toast(
-                  (t) => (
+                  () => (
                     <div className="flex flex-col gap-2">
                       <span className="font-bold">Delete Password</span>
                       <span className="flex flex-col gap-2">
@@ -83,7 +84,7 @@ function Table({ className, data, setData }) {
                           onClick={() => {
                             deletePassword(row.name);
                             setData(getLocalData());
-                            toast.dismiss(t.id);
+                            toast.dismiss();
                             return toast.success(`${row.name} deleted`);
                           }}
                         >
@@ -92,7 +93,7 @@ function Table({ className, data, setData }) {
                         <button
                           type="button"
                           className="border rounded-md text-white bg-red-400 p-2"
-                          onClick={() => toast.dismiss(t.id)}
+                          onClick={() => toast.dismiss()}
                         >
                           Cancel
                         </button>
