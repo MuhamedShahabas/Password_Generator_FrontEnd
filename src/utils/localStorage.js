@@ -1,26 +1,8 @@
-export const getLocalData = () => {
-  const localData = localStorage.getItem("Saved Passwords");
-  return localData ? JSON.parse(localData) : [];
-};
+export const getLocalData = () =>
+  localStorage.getItem("Password Generator User Email");
 
-export const saveLocally = (data) => {
-  let existingPasswords = getLocalData();
-  existingPasswords = existingPasswords.filter(
-    ({ name }) => name !== data.name
-  );
-  return localStorage.setItem(
-    "Saved Passwords",
-    JSON.stringify([...existingPasswords, data])
-  );
-};
+export const saveLocally = (token) =>
+  localStorage.setItem("Password Generator User Email", token);
 
-export const deletePassword = (nameToDelete) => {
-  let existingPasswords = getLocalData();
-  existingPasswords = existingPasswords.filter(
-    ({ name }) => nameToDelete !== name
-  );
-  return localStorage.setItem(
-    "Saved Passwords",
-    JSON.stringify(existingPasswords)
-  );
-};
+export const deleteLocalData = () =>
+  localStorage.removeItem("Password Generator User Email");

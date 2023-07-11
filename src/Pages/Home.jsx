@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckWrapper from "../Components/CheckWrapper";
 import copyToClipboardIMG from "../../public/images/copy.png";
 import { generatePassword } from "../utils/generatePassword";
 import { toast } from "react-hot-toast";
-import { getLocalData, saveLocally } from "../utils/localStorage";
+import GoogleSVG from "../Components/UI/GoogleSVG";
 import { Link } from "react-router-dom";
+import { createDB } from "../model/createNewPassword";
+import { auth, provider } from "../config/firbase";
+import { getAuth, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { saveLocally } from "../utils/localStorage";
+import LogOut from "../Components/LogOut";
 
 function Home() {
   const [options, setOptions] = useState({
@@ -16,6 +21,18 @@ function Home() {
   });
 
   const [password, setPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail("");
+      }
+    });
+  }, []);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -78,17 +95,39 @@ function Home() {
 
   const submitNewSaveHandler = (e) => {
     const passwordName = e.target.passwordName.value.toLowerCase().trim();
-    saveLocally({ name: passwordName, password });
-    if (getLocalData().some((value) => value?.name === passwordName)) {
-      return toast.success(`${passwordName} password updated`);
-    }
-    return toast.success(`${passwordName} password saved`);
+    return createDB(userEmail, { name: passwordName, password });
+  };
+
+  const onSignInHandler = () => {
+    signInWithPopup(auth, provider)
+      .then(({ user: { email, displayName, photoURL, accessToken } }) => {
+        saveLocally(accessToken);
+        toast.custom((t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex gap-3 p-3 items-center">
+              <div className="flex-shrink-0 pt-0.5">
+                <img className="h-10 w-10 rounded-full" src={photoURL} alt="" />
+              </div>
+              <span className="text-base w-full font-medium text-gray-900">
+                Welcome, {displayName}
+              </span>
+            </div>
+          </div>
+        ));
+        setUserEmail(email);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error loggin in");
+      });
   };
 
   return (
     <div className="card">
-      {/* <Circle />
-      <Circle /> */}
       <div className="card-inner flex flex-col justify-center">
         <h1 className="title">Password Generator</h1>
         <form
@@ -201,32 +240,42 @@ function Home() {
             <span>Generate</span>
           </button>
         </form>
-        <button
-          className="buttonDownload w-3/4 mx-auto"
-          onClick={
-            password
-              ? saveHandler
-              : () => toast.error("Generate a password", { duration: 1000 })
-          }
-        >
-          Save Password
-        </button>
-        <Link to="/savedPasswords">
-          <button className="continue-application w-3/4">
-            <div>
-              <div className="pencil"></div>
-              <div className="folder">
-                <div className="top">
-                  <svg viewBox="0 0 24 27">
-                    <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
-                  </svg>
+        {userEmail ? (
+          <>
+            <button
+              className="buttonDownload w-3/4 mx-auto"
+              onClick={
+                password
+                  ? saveHandler
+                  : () => toast.error("Generate a password", { duration: 1000 })
+              }
+            >
+              Save Password
+            </button>
+            <Link to="/savedPasswords">
+              <button className="continue-application w-3/4">
+                <div>
+                  <div className="pencil"></div>
+                  <div className="folder">
+                    <div className="top">
+                      <svg viewBox="0 0 24 27">
+                        <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
+                      </svg>
+                    </div>
+                    <div className="paper"></div>
+                  </div>
                 </div>
-                <div className="paper"></div>
-              </div>
-            </div>
-            Saved Passwords
+                Saved Passwords
+              </button>
+            </Link>
+            <LogOut />
+          </>
+        ) : (
+          <button className="btn-google" onClick={onSignInHandler}>
+            <GoogleSVG />
+            Continue with Google
           </button>
-        </Link>
+        )}
       </div>
     </div>
   );

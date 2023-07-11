@@ -3,9 +3,10 @@ import DataTable, { createTheme } from "react-data-table-component";
 import { toast } from "react-hot-toast";
 import copyToClipboardIMG from "../../public/images/copy.png";
 import deleteIMG from "../../public/images/bin.png";
-import { deletePassword, getLocalData } from "../utils/localStorage";
+import { deletePassword } from "../model/deletePassword";
 
-function Table({ className, data, setData }) {
+// eslint-disable-next-line react/prop-types
+function Table({ className, data, pending, fetchPasswords }) {
   const tableCustomStyles = {
     headCells: {
       style: {
@@ -15,7 +16,6 @@ function Table({ className, data, setData }) {
       },
     },
   };
-
   createTheme(
     "solarized",
     {
@@ -30,6 +30,17 @@ function Table({ className, data, setData }) {
     },
     "dark"
   );
+
+  const deleteHandler = async (id) => {
+    try {
+      await deletePassword(id);
+      await fetchPasswords();
+      toast.dismiss();
+      return toast.success(`Password deleted`);
+    } catch (error) {
+      return toast.error("Error saving password");
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -81,12 +92,7 @@ function Table({ className, data, setData }) {
                         <button
                           className="border rounded-md text-white bg-green-400 p-2"
                           type="submit"
-                          onClick={() => {
-                            deletePassword(row.name);
-                            setData(getLocalData());
-                            toast.dismiss();
-                            return toast.success(`${row.name} deleted`);
-                          }}
+                          onClick={() => deleteHandler(row.id)}
                         >
                           Confirm
                         </button>
@@ -135,7 +141,9 @@ function Table({ className, data, setData }) {
       highlightOnHover
       persistTableHead
       pagination
+      progressPending={pending}
       theme="solarized"
+      progressComponent={<div className="p-4 my-6">Loading Passwords...</div>}
       noDataComponent={
         <p className="my-8 font-semibold">No saved passwords.</p>
       }
