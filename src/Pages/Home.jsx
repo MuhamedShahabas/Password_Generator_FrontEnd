@@ -127,7 +127,7 @@ function Home() {
   };
 
   return (
-    <div className="card w-full p-3 md:w-auto md:p-0">
+    <div className="card w-full p-3 lg:w-auto lg:p-0">
       <div className="card-inner flex flex-col justify-center">
         <h1 className="title">Password Generator</h1>
         <form
