@@ -46,7 +46,7 @@ function SavedPasswords() {
   }, []);
 
   return (
-    <div className="card">
+    <div className="card w-full p-3 lg:w-auto lg:p-0">
       <div className="card-inner flex flex-col">
         <h1 className="title">Saved Passwords</h1>
         <Table

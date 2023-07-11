@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import DataTable, { createTheme } from "react-data-table-component";
+import DataTable, { Media, createTheme } from "react-data-table-component";
 import { toast } from "react-hot-toast";
 import copyToClipboardIMG from "../../public/images/copy.png";
 import deleteIMG from "../../public/images/bin.png";
@@ -125,6 +125,7 @@ function Table({ className, data, pending, fetchPasswords }) {
         name: "Password",
         grow: 2,
         selector: (row) => row.password,
+        hide: Media.SM
       },
     ],
     []
