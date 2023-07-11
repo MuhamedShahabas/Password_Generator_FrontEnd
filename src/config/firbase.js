@@ -9,17 +9,19 @@ import {
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
+console.log(import.meta.env.VITE_APIKEY);
+
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  projectId: process.env.REACT_APP_PROJECTID,
-  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MSID,
-  appId: process.env.REACT_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREID,
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MSID,
+  appId: import.meta.env.VITE_ID,
+  measurementId: import.meta.env.VITE_MEASUREID,
 };
 
-// Initialize Firebase 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
